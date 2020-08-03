@@ -1,0 +1,97 @@
+{
+	"camera": [
+		{
+			"userId": "DCGZ4EZD-012-01234567",
+			"deviceId": "5EM28970A0DBE",
+			"parentId": "4RD38978A1B91",
+			"uniqueId": "DCGZ4EZD-012-01234567_5EM28970A0DBE",
+			"deviceType": "camera",
+			"deviceName": "5EM28970A0DBE",
+			"lastModified": 1596426256782,
+			"xCloudId":	"KBUC012-0690-420-012345678",
+			"lastImageUploaded": "true",
+			"userRole": "OWNER",
+			"displayOrder": 2,
+			"presignedLastImageUrl": "https://arlolastimage-z1.s3.amazonaws.com/xxxx/xxxx/5EM28970A0DBE/lastImage.jpg?AWSAccessKeyId=AKIA2BAHQO5Q6TAHDD2H&Expires=1596512656&Signature=T4wrwGwFMHLl0eAA3RGrO1DiTPM%3D",
+			"presignedSnapshotUrl": "https://arlos3-prod-z1.s3.amazonaws.com/xxxx/xxxx/5EM28970A0DBE/snapshot.jpg?AWSAccessKeyId=AKIA2BAHQO5Q6TAHDD2H&Expires=1596512656&Signature=TYzaeo8vd42%2B8diI%2BakECVZruso%3D",
+			"presignedFullFrameSnapshotUrl": "https://arlos3-prod-z1.s3.amazonaws.com/xxxx/xxxx/5EM28970A0DBE/fullFrameSnapshot.jpg?AWSAccessKeyId=AKIA2BAHQO5Q6TAHDD2H&Expires=1596512656&Signature=zVgLXvgNB%2B3UOsOJpHEhhTNFdqQ%3D",
+			"mediaObjectCount": 1,
+			"state": "provisioned",
+			"modelId": "VMC4030",
+			"cvrEnabled": false,
+			"dateCreated": 1595456537548,
+			"arloMobilePlan": false,
+			"interfaceVersion": "i006",
+			"interfaceSchemaVer": "3",
+			"owner": {
+				"firstName": "Fake First Name",
+				"lastName": "Fake Last Name",
+				"ownerId": "DCGZ4EZD-012-01234567"
+			},
+			"properties": {
+				"modelId": "VMC4030",
+				"olsonTimeZone": "Europe/London",
+				"hwVersion": "H14"
+			},
+			"migrateActivityZone": false
+		}
+	],
+	"library": [
+		{ "mediaDurationSecond": 30,
+		  "contentType": "video/mp4",
+		  "name": "XXXXXXXXXXXXX",
+		  "presignedContentUrl": "https://arlos3-prod-z2.s3.amazonaws.com/XXXXXXX_XXXX_XXXX_XXXX_XXXXXXXXXXXXX/XXX-XXXXXXX/XXXXXXXXXXXXX/recordings/XXXXXXXXXXXXX.mp4?AWSAccessKeyId=XXXXXXX XXXXXXXXXXXXX&Expires=1472968703&Signature=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XX",
+		  "lastModified": 1472881430181,
+		  "localCreatedDate": 1472881430181,
+		  "presignedThumbnailUrl": "https://arlos3-prod-z2.s3.amazonaws.com/XXXXXXX_XXXX_XXXX_XXXX_XXXXXXXXXXXXX/XXX-XXXXXXX/XXXXXXXXXXXXX/recordings/XXXXXXXXXXXXX_thumb.jpg?AWSAccessKeyId=X XXXXXXXXXXXXXXXXXXX&Expires=1472968703&Signature=XXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXX",
+		  "reason": "motionRecord",
+		  "deviceId": "5EM28970A0DBE",
+		  "createdBy": "XXXXXXXXXXXXX",
+		  "createdDate": "20160903",
+		  "timeZone": "America/Chicago",
+		  "ownerId": "XXX-XXXXXXX",
+		  "utcCreatedDate": "XXXXXXXXXXXXX",
+		  "currentState": "new",
+		  "mediaDuration": "00:00:30"
+		}
+	],
+	"basestation": [
+		{
+			"userId": "DCGZ4EZD-012-01234567",
+			"deviceId": "4RD38978A1B91",
+			"uniqueId": "DCGZ4EZD-012-01234567_4RD38978A1B91",
+			"deviceType": "basestation",
+			"deviceName": "hcc",
+			"lastModified": 1596425776230,
+			"firmwareVersion": "1.16.2.5_3508_62dfaa0",
+			"xCloudId": "KBUC012-0690-420-012345678",
+			"userRole": "OWNER",
+			"displayOrder": 2,
+			"mediaObjectCount": 0,
+			"state": "provisioned",
+			"modelId": "VMB4000",
+			"cvrEnabled": false,
+			"dateCreated": 1595456475258,
+			"interfaceVersion": "i024",
+			"interfaceSchemaVer": "14",
+			"owner": {
+				"firstName": "Fake First Name",
+				"lastName": "Fake Last Name",
+				"ownerId": "DCGZ4EZD-012-01234567"
+			},
+			"properties": {
+				"modelId": "VMB4000",
+				"olsonTimeZone": "Europe/London",
+				"hwVersion": "VMB4000r3"
+			},
+			"connectivity": {
+				"type": "ethernet",
+				"connected": true,
+				"mepStatus": "unknown"
+			},
+			"certAvailable": true,
+			"automationRevision": 3,
+			"migrateActivityZone": false
+		}
+	]
+}

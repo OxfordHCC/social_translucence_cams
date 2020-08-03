@@ -22,18 +22,6 @@ def arlo_client():
 def foo():
     return 1
 
-@pytest.fixture(scope='module', autouse=True)
-def clean_files():
-    try:
-        os.rmdir(FS_ROOT)
-        os.remove(DATABASE)
-    except FileNotFoundError:
-        pass
-
-@pytest.fixture(scope='module', autouse=True)
-def init_db(clean_files):
-    create_tables()
-    
 @pytest.fixture
 def base_url():
     return f"http://localhost:5000"
@@ -49,6 +37,19 @@ def post(base_url):
     def do_post(*subpaths, json = {}):
         return requests.post(''.join([base_url] + list(subpaths)), json = json)
     return do_post
+
+@pytest.fixture(scope='module', autouse=True)
+def clean_files():
+    try:
+        os.rmdir(FS_ROOT)
+        os.remove(DATABASE)
+    except FileNotFoundError:
+        pass
+
+@pytest.fixture(scope='module', autouse=True)
+def init_db(clean_files):
+    create_tables()
+    
 
 #this xprocess thing is pretty funny... it's a fixture that starts a
 #subprocess using ProcessStarter.args, and proceeds to run until

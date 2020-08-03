@@ -1,5 +1,3 @@
-
-
 def test_fresh_db(get):
     r = get('/adapter')
     assert r.headers['Content-Type'] == 'application/json'

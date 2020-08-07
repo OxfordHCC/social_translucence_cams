@@ -1,0 +1,11 @@
+.venv/
+venv/
+*.env
+!example.env
+tmp/
+.xprocess/
+__pycache__/
+.misc/
+notes.org
+.pytest_cache/
+**/*.db

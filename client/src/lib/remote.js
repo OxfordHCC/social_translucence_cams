@@ -7,6 +7,7 @@ function getLibrary(){
 }
 
 function getAdapters(){
+	console.log('get adapters');
 	return fetch(pathJoin(REMOTE_URL,'adapter'));
 }
 

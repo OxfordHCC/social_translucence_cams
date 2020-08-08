@@ -10,7 +10,9 @@ export function setAdapters(adapters){
 
 export function syncAdapters(){
 	return async (dispatch) => {
+		console.log('aaa');
 		const adapters = await remote.getAdapters();
+		console.log('adapters from remote', adapters);
 		return dispatch(setAdapters(adapters));
 	}
 }

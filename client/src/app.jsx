@@ -8,7 +8,7 @@ import {
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Settings } from './settings';
-import { Adapters } from './components/Adapters';
+import Adapters from './components/Adapters';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 

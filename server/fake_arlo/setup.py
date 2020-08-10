@@ -10,8 +10,6 @@ setup(
     py_modules=['fake_arlo'],
     version='0.0.1',
     description="A fake arlo client, mocking the one at github.com/jeffreydwalter/arlo setup.py",
-    pacakge_data = {
-        "": ["*.json"]
-    },
+    include_package_data=True,
     url="n/a"
 )

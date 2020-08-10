@@ -27,6 +27,6 @@ Create test.env from sample.env and *change* FS_ROOT and DATABASE values to test
 You should also set ARLO_CLIENT to "fake_arlo" (no quotes);
 
 ```zsh
-$> python -m pytest
+$> make test
 ```
 

@@ -10,6 +10,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Settings } from './settings';
 import Adapters from './components/Adapters';
 import { createMuiTheme } from '@material-ui/core/styles';
+import AddAdapter from './components/AddAdapter';
 
 
 const theme = createMuiTheme({
@@ -62,6 +63,9 @@ function App(){
             </Route>
             <Route path="/adapters">
               <Adapters/>
+            </Route>
+            <Route path="/add-adapter">
+              <AddAdapter />
             </Route>
             <Route path="/">
               <Home />

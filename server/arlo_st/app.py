@@ -1,5 +1,6 @@
 from subprocess import call
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from arlo_st import adapters
 from arlo_st import controller
 from arlo_st import libraryFs
@@ -26,6 +27,7 @@ def validate_body(schema = None):
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
     adapters.setLogger(app.logger)
     #test route

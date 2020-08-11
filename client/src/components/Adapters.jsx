@@ -1,14 +1,20 @@
 import React from 'react';
-import { AddAdapter } from './AddAdapter';
+import AddAdapter from './AddAdapter';
 import Button from '@material-ui/core/Button';
 import GridList from '@material-ui/core/GridList';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import { AdapterTile } from './AdapterTile';
 import { connect } from 'react-redux';
-
-const mockAdapters = [{ 'name': "Arlo adapter", type:'arlo', id:'id1' }];
+import { Route, Switch, Link, useRouteMatch } from 'react-router-dom';
+import AddIcon from '@material-ui/icons/Add';
 
 function Adapters({ adapters }){
-    const getRows = () => mockAdapters.map(adapter => AdapterTile(adapter));
+    const { path, url } = useRouteMatch();
+
+    const getRows = () => adapters
+          .map(adapter => ({ ...adapter, type: adapter.adapter_type }))
+          .map(adapter => <AdapterTile adapter={adapter} key={adapter.id}/>);
 
     const getList = () => {
         if(adapters.length === 0){
@@ -19,20 +25,22 @@ function Adapters({ adapters }){
                </GridList>;
     };
     return (
-        <div className="adapters">
-          {getList()} 
-        </div>
+        <React.Fragment>
+          <Toolbar>
+            <Link to="/add-adapter" className="no-decoration">
+              <Button startIcon={<AddIcon/>}>Add adapter</Button>
+            </Link>
+          </Toolbar>
+          { getList() }
+        </React.Fragment>
     );
 }
 
-const mapStateToProps = (state) => {
-    //Only reason we're not just returning state is so that we don't pass references
-    //to other state variables...
-    const { adapters } = state;
-    return { adapters };
-};
+const stateToProps = ({ adapters }) => ({
+    adapters
+});
 
-export default connect(mapStateToProps)(Adapters);
+export default connect(stateToProps)(Adapters);
 
 
 

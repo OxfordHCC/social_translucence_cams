@@ -1,19 +1,20 @@
 from arlo_st.db import CaptureAdapter, Issue, Camera, Library
 from arlo_st.arloLib import ArloAdapter
 from playhouse.shortcuts import model_to_dict, dict_to_model
+from functools import reduce
 import sys
 import json
 
-#maps adapter types to adapter constructors
 #new adapters need to be registered here
-ADAPTER_TYPE_MAP = {
-    'arlo': ArloAdapter
-}
+ADAPTER_CLASSES = [ ArloAdapter ]
 
-#maps adapter ids to adapter objects
+ADAPTER_CLASS_BY_TYPE = {}
+for adapterClass in ADAPTER_CLASSES:
+    ADAPTER_CLASS_BY_TYPE[adapterClass.getDescription()['type']] = adapterClass
+
+#maps adapter ids to adapter instances
 ADAPTER_MAP = {}
 
-#
 logger = None
 
 def setLogger(toLogger):
@@ -53,12 +54,12 @@ def syncCameras(adapter):
     remote_added_dicts = [model_to_dict(model, recurse=False) for model in remote_added]
     Camera.insert_many(remote_added_dicts).execute()
 
-def instantiateAdapter(adapter_model):
-    adapter_type = adapter_model.get('adapter_type')
-    adapter_constructor = ADAPTER_TYPE_MAP.get(adapter_type)
+def instantiateAdapter(adapter_dict):
+    adapter_type = adapter_dict.get('adapter_type')
+    adapter_constructor = ADAPTER_CLASS_BY_TYPE.get(adapter_type)
     if(adapter_constructor == None):
         raise UnknownAdapterTypeError(adapter_type)
-    adapter = adapter_constructor(adapter_model)
+    adapter = adapter_constructor(adapter_dict)
     return adapter
 
 def syncAdapter(adapter):
@@ -66,32 +67,38 @@ def syncAdapter(adapter):
     syncLibrary(adapter)
 
 def add(adapter_type, name, adapter_options):
-    if(ADAPTER_TYPE_MAP.get(adapter_type) == None):
+    adapter_constructor = ADAPTER_CLASS_BY_TYPE.get(adapter_type)
+    if(adapter_constructor == None):
         raise UnknownAdapterTypeError(adapter_type)
-    adapter_model = model_to_dict(CaptureAdapter.create(
+
+    adapter_model = CaptureAdapter.create(
         adapter_type = adapter_type,
         name = name,
         options = json.dumps(adapter_options)
-    ))
-    adapter = instantiateAdapter(adapter_model)
-    ADAPTER_MAP[adapter_model['id']] = adapter
-    syncAdapter(adapter)   
+    )
+     
+    adapter_dict = model_to_dict(adapter_model)
+    adapter_dict['options'] = json.loads(adapter_dict['options'])
+    adapter = instantiateAdapter(adapter_dict)
+
+    ADAPTER_MAP[adapter_model.id] = adapter
+    syncAdapter(adapter)  
 
 def get():
     #I wonder if I can move this somewhere in the CaptureAdapter model
     #This needs to be called everytime we retrieve a model from the db
     #Perhaps we can use peewee's model_to_dict with some options
-    def parseOptions(row):
+    def parseOptions(adapter_dict):
         try:
-            row['options'] = json.loads(row['options'])
+            adapter_dict['options'] = json.loads(adapter_dict['options'])
         except KeyError:
             pass
-        return row
-        
-    return [ parseOptions(model) for model in CaptureAdapter.select().dicts()]
+        return adapter_dict
+
+    return [ parseOptions(model) for model in CaptureAdapter.select().dicts() ]
 
 def getTypes():
-    return list(dict.keys(ADAPTER_TYPE_MAP))
+    return [adapterClass.getDescription() for adapterClass in ADAPTER_CLASSES]
 
 def sync():
     for key, adapter in ADAPTER_MAP:
@@ -103,6 +110,3 @@ def sync():
 def initAdapters():
     for adapter_model in get():
          ADAPTER_MAP[adapter_model['id']] = instantiateAdapter(adapter_model)
-
-        
-    

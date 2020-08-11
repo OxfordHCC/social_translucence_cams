@@ -7,13 +7,25 @@ import json
 #TODO: adapter['options'] should be parsed before reaching the constructor
 
 class ArloAdapter:
+
     def __init__(self, adapter_model):
-        options = json.loads(adapter_model['options'])
+        options = adapter_model['options']
         arlo_user = options['username']
         arlo_pass = options['password']
         self.adapter_id = adapter_model['id']
         self.arlo_client = Arlo(arlo_user, arlo_pass)
         self.basestation = self.arlo_client.GetDevices('basestation')
+        
+    @staticmethod
+    def getDescription():
+        return {
+            "name": "Arlo",
+            "type": "arlo",
+            "options": {
+                "username": { "type": "string", "name":"Username" },
+                "password": { "type": "string", "name":"Password" }
+            }
+        }
                     
     def toLibraryModel(self, remote_library):
         local = Library()
@@ -35,11 +47,7 @@ class ArloAdapter:
     def getRemoteLibrary(self):
         from_date = datetime.fromtimestamp(0).strftime("%Y%m%d")
         to_date = datetime.now().strftime("%Y%m%d")
-        print("AAA", file=sys.stderr)
-        print(from_date, file=sys.stderr)
-        print(to_date, file=sys.stderr)
         remote_library = self.arlo_client.GetLibrary(from_date, to_date)
-        print(remote_library, file=sys.stderr)
         return map(self.toLibraryModel, remote_library)
 
     # get cameras from all basestations

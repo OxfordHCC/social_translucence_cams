@@ -21,3 +21,6 @@ test:
 clean:
 	rm -r ./venv/
 
+reset_db:
+	rm -r ./db/
+

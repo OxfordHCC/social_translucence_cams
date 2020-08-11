@@ -1,22 +1,52 @@
-const REMOTE_URL = 'localhost:5000';
+const REMOTE_URL = 'http://localhost:5000';
+
+//UTILS
 
 const pathJoin = (...paths) => paths.join('/');
 
+const post = async (url, data) => {
+	const res = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+	});
+	
+	return res.json();
+}
+
+const get = async (url) => {
+	const res = await fetch(url);
+	return res.json();
+}
+
+//API
+
 function getLibrary(){
-	return fetch(pathJoin(REMOTE_URL,'library'));
+	return get(pathJoin(REMOTE_URL,'library'));
 }
 
 function getAdapters(){
-	console.log('get adapters');
-	return fetch(pathJoin(REMOTE_URL,'adapter'));
+	return get(pathJoin(REMOTE_URL,'adapter'));
+}
+
+async function getAdapterClasses(){
+	return get(pathJoin(REMOTE_URL,'adapter-types'));
 }
 
 function getCameras(){
-	return fetch(pathJoin(REMOTE_URL, 'camera'));
+	return get(pathJoin(REMOTE_URL, 'camera'));
+}
+
+function postAdapter(adapter){
+	return post(pathJoin(REMOTE_URL, 'adapter'), adapter);
 }
 
 export default {
 	getLibrary,
 	getAdapters,
-	getCameras
+	getAdapterClasses,
+	getCameras,
+	postAdapter
 }

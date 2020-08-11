@@ -1,7 +1,7 @@
 import remote from '../lib/remote';
 
 export const SET_CAMERAS = "SET_CAMERAS";
-export function setCanmeras(cameras){
+export function setCameras(cameras){
 	return {
 		type: SET_CAMERAS,
 		cameras

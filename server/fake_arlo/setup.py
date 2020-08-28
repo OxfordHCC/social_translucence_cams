@@ -11,5 +11,6 @@ setup(
     version='0.0.1',
     description="A fake arlo client, mocking the one at github.com/jeffreydwalter/arlo setup.py",
     include_package_data=True,
-    url="n/a"
+    url="n/a",
+    scripts=['scripts/fake_arlo_server']
 )

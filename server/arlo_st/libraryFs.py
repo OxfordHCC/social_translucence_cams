@@ -2,11 +2,13 @@ import os
 from arlo_st.env import FS_ROOT
 from arlo_st.db import Library, Issue
 
+stream_end_sentinel = object()
+
 try:
     os.mkdir(FS_ROOT)
-    print("created fs root directory")
+    print("Created fs root directory")
 except FileExistsError:
-    print("fs root already initialised")
+    print("Fs root already initialised.")
     
 #Files are stored on fs as .mp4 
 def getAll():
@@ -17,13 +19,45 @@ def getAll():
 #removed = library\files
 #assume no added, because we don't really care about manually added videos
 #for all removed, raise Issue()
+
+def raiseMissingEntryIssue(entry):
+    issue = Issue.create(message=f"Missing video file {entry}! Someone deleted it externally.")
+    issue.save()
+    
 def integrityCheck():
-    def raiseMissingEntryIssue(entry):
-        issue = Issue.create(message=f"Missing video file {entry}! Someone deleted it externally.")
-        issue.save()
-    fsEntries = set(libraryFs.getAll())
+    fsEntries = set(getAll())
     dbEntries = set([video['fsname'] for video in Library.select()])
     removed = dbEntries - fsEntries
-    for entries in removed:
+    for entry in removed:
         raiseMissingEntryIssue(entry)
     return 0
+
+def resolve(local_id):
+    return os.path.join(FS_ROOT, local_id)
+
+def read_file(local_id=None):
+    if local_id is None:
+        raise FileNotFoundError()
+
+    file_path = resolve(local_id)
+    f = open(file_path, "rb")
+    def gen():
+        with f:
+            while bytes_arr := f.read(1000):
+                yield bytes_arr
+    return gen()
+    
+
+#TODO: what happens if exception is raised during writing?
+def write_file(local_id, file_stream, output_queue=None):
+    try:
+        file_path = resolve(local_id)
+        with open(file_path, 'wb') as f:
+            for byte_arr in file_stream:
+                f.write(byte_arr)
+                if output_queue is not None:
+                    output_queue.put(byte_arr)
+        return local_id
+    finally:
+        if output_queue is not None:
+            output_queue.put(stream_end_sentinel)

@@ -1,0 +1,21 @@
+#! python
+import requests
+import os
+from flask import Flask, Response, jsonify
+
+app = Flask(__name__)
+
+pkg_root = os.path.dirname(os.path.dirname(__file__))
+
+@app.route('/recording/<name>')
+def getRecording(name):
+
+    def generate():
+        with open(f'{pkg_root}/files/{name}.mp4', 'rb') as f:
+            while(byte := f.read(1000)):
+                yield byte
+        
+        
+    return Response(generate(), mimetype='video/mp4')
+
+app.run(port=3253)

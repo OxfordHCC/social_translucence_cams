@@ -1,6 +1,9 @@
 import os
 import json
 
+HOST = 'http://localhost'
+PORT = 3253
+
 class Arlo(object):
     def __init__(self, user, passwd):
         dirname = os.path.dirname(__file__)

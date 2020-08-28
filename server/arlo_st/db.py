@@ -1,4 +1,10 @@
-from peewee import *
+from peewee import (
+    Model,
+    SqliteDatabase,
+    CharField,
+    ForeignKeyField,
+    BooleanField
+)
 from arlo_st.env import DATABASE
 
 # create a peewee database instance -- our models will use this database to

@@ -1,8 +1,9 @@
-import pytest
 import sys
-from xprocess import ProcessStarter
 import os
+import pytest
+from xprocess import ProcessStarter
 import requests
+import shutil
 
 ENV_FILE = os.path.realpath('test.env')
 os.environ['ENV_FILE'] = ENV_FILE
@@ -14,13 +15,12 @@ from fake_arlo import Arlo as FakeArlo
 fake_arlo_client = FakeArlo("foo", "bar")
 
 @pytest.fixture()
+def fs_root():
+    return os.environ['FS_ROOT']
+
+@pytest.fixture()
 def arlo_client():
     return fake_arlo_client
-
-#just testing out fixtures
-@pytest.fixture
-def foo():
-    return 1
 
 @pytest.fixture
 def base_url():
@@ -40,16 +40,19 @@ def post(base_url):
 
 @pytest.fixture(scope='module', autouse=True)
 def clean_files():
-    try:
-        os.rmdir(FS_ROOT)
-        os.remove(DATABASE)
-    except FileNotFoundError:
-        pass
+    def rm_if_exists(path, rmFn=os.remove):
+        try:
+            rmFn(path)
+        except FileNotFoundError:
+            pass
+        
+    rm_if_exists(FS_ROOT, shutil.rmtree)
+    rm_if_exists(DATABASE, os.remove)
+
 
 @pytest.fixture(scope='module', autouse=True)
 def init_db(clean_files):
     create_tables()
-    
 
 #this xprocess thing is pretty funny... it's a fixture that starts a
 #subprocess using ProcessStarter.args, and proceeds to run until
@@ -66,11 +69,21 @@ def flask_server(xprocess, init_db):
     python_bin = sys.executable
 
     class Starter(ProcessStarter):
-        pattern="Running"
+        pattern = "Running"
         args = [python_bin, arlo_st_main]
         env = arlo_st_env
     
-    logfile = xprocess.ensure(arlo_st_server, Starter)
+    xprocess.ensure(arlo_st_server, Starter)
     yield
     xprocess.getinfo(arlo_st_server).terminate()
 
+@pytest.fixture(scope='module')
+def fake_arlo_server(xprocess):
+    process_name = "fake_arlo_server"
+    class Starter(ProcessStarter):
+        pattern = "Running"
+        args = ['fake_arlo_server']
+
+    xprocess.ensure(process_name, Starter)
+    yield
+    xprocess.getinfo(process_name).terminate()

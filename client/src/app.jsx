@@ -11,6 +11,8 @@ import { Settings } from './settings';
 import Adapters from './components/Adapters';
 import { createMuiTheme } from '@material-ui/core/styles';
 import AddAdapter from './components/AddAdapter';
+import AdapterPage from '~/src/components/AdapterPage';
+import CameraPage from '~/src/components/CameraPage';
 
 
 const theme = createMuiTheme({
@@ -49,7 +51,7 @@ function App(){
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/adapters">Adapters</Link>
+                  <Link to="/adapter">Adapters</Link>
                 </li>
                 <li>
                   <Link to="/settings">Settings</Link>
@@ -61,15 +63,27 @@ function App(){
             <Route path="/settings">
               <Settings />
             </Route>
-            <Route path="/adapters">
+
+            <Route path="/adapter/:id" component={AdapterPage}/>
+
+            <Route path="/camera/:id" component={CameraPage}/>
+
+            <Route path="/adapter">
               <Adapters/>
             </Route>
+            
             <Route path="/add-adapter">
               <AddAdapter />
             </Route>
+
+            <Route path="/add-adapter">
+              <AddAdapter />
+            </Route>
+
             <Route path="/">
               <Home />
             </Route>
+            
           </Switch>
         </Router>
     );

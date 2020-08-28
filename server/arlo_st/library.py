@@ -55,42 +55,6 @@ def snyc_recording(video_id):
     except requests.exceptions.Timeout:
         raise RecordingNotFound('remote location unreachable')
 
-
-#Old sync and stream code: will delete once checked out
-#def sync_recording(library_model, file_stream, q):
-#    local_id = str(uuid.uuid4())
-#    libraryFs.write_file(local_id, file_stream, q)
-
-    #update library mode
-#    library_model.location_local = local_id
-#    library_model.save()
-
-
-# def read_remote(library_model):
-#     try:
-#         remote_url = library_model.location_remote
-#         r = requests.get(remote_url, stream=True, timeout=3)
-#         r.raise_for_status()
-        
-#         q = SimpleQueue()
-        
-#         threading.Thread(
-#             target=sync_recording,
-#             args=(library_model, r.iter_content(chunk_size=1000), q)
-#         ).start()
-
-#         def gen():
-#             while True:
-#                 bytes_arr = q.get()
-#                 if bytes_arr is libraryFs.stream_end_sentinel:
-#                     break
-#                 yield bytes_arr
-#         return gen()
-#     except requests.exceptions.HTTPError:
-#         raise RecordingNotFound('remote location unreachable')
-#     except requests.exceptions.Timeout:
-#         raise RecordingNotFound('remote location unreachable')
-
 def read_recording(video_id):
     library_model = get_library_model(video_id)
     try:

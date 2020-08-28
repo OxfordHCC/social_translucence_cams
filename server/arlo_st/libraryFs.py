@@ -49,15 +49,13 @@ def read_file(local_id=None):
     
 
 #TODO: what happens if exception is raised during writing?
-def write_file(local_id, file_stream, output_queue=None):
-    try:
-        file_path = resolve(local_id)
-        with open(file_path, 'wb') as f:
-            for byte_arr in file_stream:
-                f.write(byte_arr)
-                if output_queue is not None:
-                    output_queue.put(byte_arr)
-        return local_id
-    finally:
-        if output_queue is not None:
-            output_queue.put(stream_end_sentinel)
+def write_file(local_id, file_stream):
+    file_path = resolve(local_id)
+    with open(file_path, 'wb') as f:
+        for byte_arr in file_stream:
+            f.write(byte_arr)
+    return local_id
+
+def remove_file(local_id):
+    file_path = resolve(local_id)
+    os.remove(file_path)

@@ -6,9 +6,9 @@ stream_end_sentinel = object()
 
 try:
     os.mkdir(FS_ROOT)
-    print("Created fs root directory")
+    print("Created fs root directory. [OK]")
 except FileExistsError:
-    print("Fs root already initialised.")
+    print("Fs root already initialised. [OK]")
     
 #Files are stored on fs as .mp4 
 def getAll():

@@ -9,3 +9,4 @@ __pycache__/
 notes.org
 .pytest_cache/
 **/*.db
+fs/

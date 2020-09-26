@@ -50,7 +50,7 @@
 		  "createdDate": "20160903",
 		  "timeZone": "America/Chicago",
 		  "ownerId": "XXX-XXXXXXX",
-		  "utcCreatedDate": "XXXXXXXXXXXXX",
+		  "utcCreatedDate": "1601084152000",
 		  "currentState": "new",
 		  "mediaDuration": "00:00:30"
 		},
@@ -67,7 +67,7 @@
 		  "createdDate": "20160903",
 		  "timeZone": "America/Chicago",
 		  "ownerId": "XXX-XXXXXXX",
-		  "utcCreatedDate": "XXXXXXXXXXXXX",
+		  "utcCreatedDate": "1601083152000",
 		  "currentState": "new",
 		  "mediaDuration": "00:00:30"
 		},
@@ -84,7 +84,7 @@
 		  "createdDate": "20160903",
 		  "timeZone": "America/Chicago",
 		  "ownerId": "XXX-XXXXXXX",
-		  "utcCreatedDate": "XXXXXXXXXXXXX",
+		  "utcCreatedDate": "1601082152000",
 		  "currentState": "new",
 		  "mediaDuration": "00:00:30"
 		}

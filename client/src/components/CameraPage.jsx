@@ -1,42 +1,36 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-
-
-function LibraryList({recordings}){
-    const genLibraryListItem = rec => (
-        <ListItem key={rec.id}>
-          <ListItemText>
-            {rec.name}
-          </ListItemText>
-        </ListItem>
-    );
-
-    if(recordings.length === 0){
-        return 'No recordings';
-    }
-    
-    return <List>
-             { recordings.map(genLibraryListItem) }
-           </List>;
-
-}
-//on the camera page, we want to have
-//list of library entries
+import LibraryList from './LibraryList';
+import { getCameraStream } from '~/src/lib/remote';
 
 function CameraPage({ camera, recordings }){
+    const [ streamUrl, setStreamUrl ] = useState();
+    
+    useEffect(() => {
+        (async () => {
+            const streamInfo = await getCameraStream(camera.id);
+            setStreamUrl(streamInfo.url);
+        })();
+    },[camera]);
+    
     return (
         <div className="camera">
+          <h1>{camera.name}</h1>
+          <h2>Live feed</h2>
+          {
+              (streamUrl)?
+                  <img src={streamUrl}/>
+              : "Live stream not available"
+          }
+          <h2>Recordings</h2>
           <LibraryList recordings = {recordings}/>
         </div>
     );
-}
+};
 
 const stateToProps = ({ cameras, library }, props) => {
-    console.log(props);
-    const cameraId = props.match.params.cameraId;
+    const cameraId = props.match.params.id;
     const camera = cameras.find(cam => cam.id === cameraId);
     const recordings = library.filter(lib => lib.camera === cameraId);
     

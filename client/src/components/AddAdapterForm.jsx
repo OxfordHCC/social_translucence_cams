@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { postAdapter } from '~/src/actions/adapterActions';
 
+// generate form object from adapter schema
 const templateFromClass = (adapterClass) => adapterClass && {
     name: "",
     "adapter_type": adapterClass['type'],
@@ -18,7 +19,6 @@ const templateFromClass = (adapterClass) => adapterClass && {
     }
 };
 
-
 //TODO: move to separate file
 function AddAdapterForm({ adapterClasses, addAdapter }){
     const { adapterType } = useParams();
@@ -26,6 +26,7 @@ function AddAdapterForm({ adapterClasses, addAdapter }){
     const [ adapter, setAdapter ] = React.useState(undefined);
     const history = useHistory();
 
+    //initialize the adapter object whenver the adapter class
     React.useEffect(() => {
         setAdapter(() => templateFromClass(adapterClass));
     }, [adapterClass]);
@@ -60,6 +61,7 @@ function AddAdapterForm({ adapterClasses, addAdapter }){
     const handleSubmit = (e) => {
         e.preventDefault();
         try{
+            console.log('adapter is',adapter);
             addAdapter(adapter);
             history.push('/adapters');
         }catch(err){
@@ -67,15 +69,17 @@ function AddAdapterForm({ adapterClasses, addAdapter }){
         }
     };
 
-    const getFields = (schema) => {
+    const getFields = (schema, adapterObject) => {
         return Object.entries(schema)
             .map(([key, field]) =>
                  <div key={key}>
                    <TextField
-                     label={field.name}
-                     name={key}
+                     label={field.label}
+                     name={field.name}
                      onChange={handleOptionsChange}
-                     value={adapter.options[key]}
+                     value={adapterObject.options[field.name]}
+                     type={field.type}
+                     fullWidth
                    />
                  </div>
         );
@@ -95,7 +99,7 @@ function AddAdapterForm({ adapterClasses, addAdapter }){
 
             <h3> Options</h3>
             <div>
-              { getFields(adapterClass.options) }
+              { getFields(adapterClass.options, adapter) }
             </div>
             
             <Button

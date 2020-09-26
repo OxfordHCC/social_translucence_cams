@@ -11,6 +11,12 @@ export function setLibrary(library){
 export function syncLibrary(library){
 	return async (dispatch) => {
 		const library = await remote.getLibrary();
+
+		//sort recordings by timestamp
+		library.sort((a,b) => {
+			return a.timestamp < b.timestamp
+		});
+		
 		return dispatch(setLibrary(library));
 	}
 }

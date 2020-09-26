@@ -8,10 +8,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 function CameraList({ cameras }){
 
     const CameraListItem = camera => (
-        <Link to={`/camera/${camera.id}`}>
-        <ListItem key={camera.id}>
-          <ListItemText primary={camera.name} />
-        </ListItem>
+        <Link to={`/camera/${camera.id}`} key={camera.id}>
+          <ListItem>
+            <ListItemText primary={camera.name} />
+          </ListItem>
         </Link>
     );
     
@@ -33,7 +33,8 @@ function AdapterPage({ adapter, adapterCams }){
     const adapterCameras = adapterCams.filter(cam => cam.adapter === adapter.id);
     
     return <div className="adapter">
-             Here be adapter {adapter.name}
+             <h1>{adapter.name}</h1>
+             <h2>Cameras</h2>
              <CameraList cameras={ adapterCameras } />
              
            </div>;
@@ -44,9 +45,6 @@ const stateToProps = ({ adapters, cameras }, props) => {
     
     const adapter = adapters.find(ad => ad.id == adapterId);
     const adapterCams = cameras.filter(cam => cam.adapter == adapterId);
-    console.log(adapterId, adapter);
-
-    console.log('adapterCams', adapterCams);
 
     return {
         adapter,

@@ -26,7 +26,7 @@ function AddAdapter({ adapterClasses }){
     return (
         <div className="add-adapter">
           <Toolbar>
-            <Link to="/adapters">
+            <Link to="/adapter">
               <IconButton aria-label="search" color="inherit">
                 <ArrowBackIcon />
               </IconButton>

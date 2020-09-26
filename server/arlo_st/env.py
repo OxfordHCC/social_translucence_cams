@@ -20,6 +20,7 @@ DATABASE = os.getenv("DATABASE")
 DATABASE = os.path.join(P_ROOT, DATABASE)
 FS_PATH = os.getenv("FS_PATH")
 FS_ROOT = os.path.join(P_ROOT, FS_PATH)
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
 #We need to change the Arlo client to a fake one for integration
 #testing purposes because we can't use a real one. "Why?" you might

@@ -4,6 +4,10 @@ const REMOTE_URL = 'http://localhost:5000';
 
 const pathJoin = (...paths) => paths.join('/');
 
+const apiTo = (endpoint) => {
+	return [REMOTE_URL, endpoint].join('');
+}
+
 const post = async (url, data) => {
 	const res = await fetch(url, {
 		method: 'POST',
@@ -21,29 +25,37 @@ const get = async (url) => {
 	return res.json();
 }
 
-//API
-
-function getLibrary(){
-	return get(pathJoin(REMOTE_URL,'library'));
+export function getRecordingURL(recordingId){
+	return apiTo(`/library/${recordingId}`);
 }
 
-function getAdapters(){
-	return get(pathJoin(REMOTE_URL,'adapter'));
+// API calls
+export function getCameraStream(cameraId){
+	return get(apiTo(`/camera/${cameraId}/stream_url`));
 }
 
-async function getAdapterClasses(){
-	return get(pathJoin(REMOTE_URL,'adapter-types'));
+export function getLibrary(){
+	return get(apiTo('/library'));
 }
 
-function getCameras(){
-	return get(pathJoin(REMOTE_URL, 'camera'));
+export function getAdapters(){
+	return get(apiTo('/adapter'));
 }
 
-function postAdapter(adapter){
-	return post(pathJoin(REMOTE_URL, 'adapter'), adapter);
+export async function getAdapterClasses(){
+	return get(apiTo('/adapter-types'));
+}
+
+export function getCameras(){
+	return get(apiTo('/camera'));
+}
+
+export function postAdapter(adapter){
+	return get(apiTo('/adapter'));
 }
 
 export default {
+	getCameraStream,
 	getLibrary,
 	getAdapters,
 	getAdapterClasses,
